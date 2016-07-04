@@ -1,3 +1,5 @@
+import java.util.function.Function;
+
 public class Strings {
     private static final int ITERATIONS = 1000;
 
@@ -10,15 +12,8 @@ public class Strings {
     }
 
     public static void timeStrings() {
-        long start1 = System.nanoTime();
-        buildStringWithConcatenation();
-        long end1 = System.nanoTime();
-        long duration1 = end1 - start1;
-
-        long start2 = System.nanoTime();
-        buildStringWithStringBuilder();
-        long end2 = System.nanoTime();
-        long duration2 = end2 - start2;
+        long duration1 = time((x) -> buildStringWithConcatenation());
+        long duration2 = time((x) -> buildStringWithStringBuilder());
 
         long largest = Math.max(duration1, duration2);
         long smallest = Math.min(duration1, duration2);
@@ -27,6 +22,14 @@ public class Strings {
         System.out.println(duration1);
         System.out.println(duration2);
         System.out.println(factor + " times faster");
+    }
+
+    private static long time(Function f) {
+        long start = System.nanoTime();
+        f.apply(null);
+        long end = System.nanoTime();
+        long duration = end - start;
+        return duration;
     }
 
     private static String buildStringWithStringBuilder() {
