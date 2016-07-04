@@ -12,8 +12,8 @@ public class Strings {
     }
 
     public static void timeStrings() {
-        long duration1 = time((x) -> buildStringWithConcatenation());
-        long duration2 = time((x) -> buildStringWithStringBuilder());
+        long duration1 = time(() -> buildStringWithConcatenation());
+        long duration2 = time(() -> buildStringWithStringBuilder());
 
         long largest = Math.max(duration1, duration2);
         long smallest = Math.min(duration1, duration2);
@@ -24,9 +24,9 @@ public class Strings {
         System.out.println(factor + " times faster");
     }
 
-    private static long time(Function f) {
+    private static long time(Runnable r) {
         long start = System.nanoTime();
-        f.apply(null);
+        r.run();
         long end = System.nanoTime();
         long duration = end - start;
         return duration;
